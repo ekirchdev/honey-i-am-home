@@ -10,6 +10,7 @@ This tool will send a message via telegram, once your mobile phone is detected i
 
 - Install Python 3.7 or higher.
 - Run ``pip install -r <PROJECT_ROOT>/requirements.txt`` on a command line.
+- You need to find out the MAC address of your phone (or any other device). At usual, this device should be in the same network as the host which runs this application.
 
 ## Telegram bot
 
