@@ -59,7 +59,7 @@ class DeviceDetector(object):
                     if send_notification:
                         self._notify()
                 print("---\n\n")
-                time.sleep(self._device_scan_interval)
+                time.sleep(self._device_scan_interval * 60)
             except KeyboardInterrupt:
                 print("Exit tool by keyboard interrupt.")
                 exit(0)
