@@ -57,7 +57,7 @@ class DeviceDetector(object):
                     send_notification = self._check_timestamp_diff(current_time)
                     self._update_last_seen(current_time)
                     if send_notification:
-                        self._notify()
+                        self._notify(message="Your boyfriend just came home!")
                 print("---\n\n")
                 time.sleep(self._device_scan_interval * 60)
             except KeyboardInterrupt:
@@ -90,10 +90,7 @@ class DeviceDetector(object):
             return False
         timestamp_diff = (timestamp - self._last_seen).seconds / 60
         print('Difference in minutes: ', timestamp_diff)
-        if timestamp_diff > self._minimum_absence_for_notification:
-            self._notify("Your boyfriend just came home!")
-            return True
-        return False
+        return timestamp_diff > self._minimum_absence_for_notification
 
     def _notify(self, message):
         if not self._notification_service:
