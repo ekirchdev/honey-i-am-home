@@ -8,6 +8,8 @@
 import os
 import time
 from datetime import datetime
+
+from notification.notification_service import NotificationService
 from utils.regex import Regex
 import utils.config as config
 
@@ -17,7 +19,8 @@ class DeviceDetector(object):
     def __init__(self,
                  device_address=config.OPT_PARAM_DEVICE_ADDRESS_DEFAULT,
                  minimum_absence_for_notification=config.OPT_PARAM_MINIMUM_ABSENCE_TIME_DEFAULT,
-                 device_scan_interval=config.OPT_PARAM_SCAN_INTERVAL_DEFAULT):
+                 device_scan_interval=config.OPT_PARAM_SCAN_INTERVAL_DEFAULT,
+                 notification_service=None):
         """
         Initialize device detector.
         :param device_address: The mac address of the device.
@@ -29,10 +32,13 @@ class DeviceDetector(object):
             raise ValueError("Address of device not set!")
         if not Regex.valid_mac_address(device_address):
             raise ValueError("Please pass a proper mac address format for parameter 'device_address'!")
+        if not notification_service or not isinstance(notification_service, NotificationService):
+            raise ValueError("Invalid value for 'notification_service'!")
         self._device_address = device_address
         self._last_seen = None
         self._minimum_absence_for_notification = minimum_absence_for_notification
         self._device_scan_interval = device_scan_interval
+        self._notification_service = notification_service
 
     def run(self):
         """
@@ -85,10 +91,12 @@ class DeviceDetector(object):
         timestamp_diff = (timestamp - self._last_seen).seconds / 60
         print('Difference in minutes: ', timestamp_diff)
         if timestamp_diff > self._minimum_absence_for_notification:
-            print("Need to notify!")
+            self._notify("Your boyfriend just came home!")
             return True
         return False
 
-    def _notify(self):
-        # TODO: connect to Telegram API or whatever
-        pass
+    def _notify(self, message):
+        if not self._notification_service:
+            print("No notification service configured.")
+            return
+        self._notification_service.send_message(message)
