@@ -21,3 +21,10 @@ OPT_PARAM_SCAN_INTERVAL_SHORT = "-s"
 OPT_PARAM_SCAN_INTERVAL_OUT = "scan_interval"
 OPT_PARAM_SCAN_INTERVAL_DEFAULT = 1
 OPT_PARAM_SCAN_INTERVAL_HELP = "Interval in minutes that indicates how often a device search is performed."
+
+# telegram config
+KEY_TELEGRAM_BOT_TOKEN = "bot_token"
+KEY_TELEGRAM_BOT_CHAT_ID = "bot_chat_id"
+
+# telegram messaging
+URL_SEND_TELEGRAM_MESSAGE = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s"
